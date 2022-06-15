@@ -1,18 +1,19 @@
-pragma.solidity ^0.8.10; //Declaramos la version del compilador.
+pragma solidity ^0.8.10; //Declaramos la version del compilador.
 
-contract Estudiantes() //Creamos las variables que vamos a usar.
+contract Estudiantes //Creamos las variables que vamos a usar.
 {
-    private string _nombre;
-    private string _apellido;
-    private string _curso;
-    private address _docente;
-    private mapping(string => uint8) private _notas_materias;
+    string private _nombre;
+    string private _apellido;
+    string private _curso;
+    address private _docente;
+    mapping(string => uint8) private _notas_materias;
     string[] private SubjectNames;
 
-constructor(string memory _name, string memory _apellido, string memory curso) {
-        _name = name_;
+constructor(string memory _name, string memory apellido_, string memory curso)
+    {
+        _nombre = _name;
         _apellido = apellido_;
-        _curso = curso_;
+        _curso = curso;
         _docente = msg.sender;
     }
 
@@ -21,7 +22,7 @@ function apellido() public view returns (string memory) {
     }
 
 function nombre_completo() public view returns (string memory) {
-    return string.concat(_nombre, _apellido);
+    return string(bytes.concat(bytes(_nombre), " ", bytes(_apellido)));
 }
 
 function curso() public view returns(string memory){
@@ -42,18 +43,18 @@ function aprobo(string memory materia) public view returns (bool){
     if(_notas_materias[materia] >= 60){
         return true;
     }
-        false;
+    return  false;
 }
 
-function Promedio() public view returns (uint8)
-{
-    int private Sum;
-    for(uint i = 0; i <= SubjectNames.length; i++)
+    function promedio() public view returns(uint)
     {
-        Sum += _notas_materias[SubjectNames[i]];
+        uint Sum;
+
+        for(uint i= 0; i <= SubjectNames.length; i++)
+        {
+            Sum += _notas_materias[SubjectNames[i]];
+        }
+
+        return Sum / SubjectNames.length;
     }
-
-    return Sum / SubjectNames.length;
-}
-
 }
