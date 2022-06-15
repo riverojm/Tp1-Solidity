@@ -7,6 +7,7 @@ contract Estudiantes() //Creamos las variables que vamos a usar.
     private string _curso;
     private address _docente;
     private mapping(string => uint8) private _notas_materias;
+    string[] private SubjectNames;
 
 constructor(string memory _name, string memory _apellido, string memory curso) {
         _name = name_;
@@ -29,6 +30,7 @@ function curso() public view returns(string memory){
 
 function set_nota_materia(uint8 nota_, string memory materia_) public {
     require (msg.sender == _docente, "Solo el docente puede modificar las notas");
+    SubjectNames.push(materia_);
     _notas_materias[materia_] = nota_;
 }
 
@@ -43,5 +45,15 @@ function aprobo(string memory materia) public view returns (bool){
         false;
 }
 
+function Promedio() public view returns (uint8)
+{
+    int private Sum;
+    for(uint i = 0; i <= SubjectNames.length; i++)
+    {
+        Sum += _notas_materias[SubjectNames[i]];
+    }
+
+    return Sum / SubjectNames.length;
+}
 
 }
